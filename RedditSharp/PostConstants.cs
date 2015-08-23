@@ -1,18 +1,18 @@
 ﻿namespace RedditSharp
 {
-    class PostConstants
+    static class PostConstants
     {
-        public static string CommentUrl = "/api/comment";
-        public static string RemoveUrl = "/api/remove";
-        public static string DelUrl = "/api/del";
-        public static string GetCommentsUrl = "/comments/{0}.json";
-        public static string ApproveUrl = "/api/approve";
-        public static string EditUserTextUrl = "/api/editusertext";
-        public static string HideUrl = "/api/hide";
-        public static string UnhideUrl = "/api/unhide";
-        public static string SetFlairUrl = "/api/flair";
-        public static string MarkNSFWUrl = "/api/marknsfw";
-        public static string UnmarkNSFWUrl = "/api/unmarknsfw";
-        public static string ContestModeUrl = "/api/set_contest_mode";
+        public const string CommentUrl = "/api/comment";
+        public const string RemoveUrl = "/api/remove";
+        public const string DelUrl = "/api/del";
+        public const string GetCommentsUrl = "/comments/{0}.json";
+        public const string ApproveUrl = "/api/approve";
+        public const string EditUserTextUrl = "/api/editusertext";
+        public const string HideUrl = "/api/hide";
+        public const string UnhideUrl = "/api/unhide";
+        public const string SetFlairUrl = "/api/flair";
+        public const string MarkNSFWUrl = "/api/marknsfw";
+        public const string UnmarkNSFWUrl = "/api/unmarknsfw";
+        public const string ContestModeUrl = "/api/set_contest_mode";
     }
 }
