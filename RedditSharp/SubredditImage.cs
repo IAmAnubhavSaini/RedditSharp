@@ -3,8 +3,6 @@ namespace RedditSharp
 {
     public class SubredditImage
     {
-        private const string DeleteImageUrl = "/api/delete_sr_img";
-
         private Reddit Reddit { get; set; }
         private IWebAgent WebAgent { get; set; }
 
@@ -37,7 +35,7 @@ namespace RedditSharp
 
         public void Delete()
         {
-            var request = WebAgent.CreatePost(DeleteImageUrl);
+            var request = WebAgent.CreatePost(SubredditImageConstants.DeleteImageUrl);
             var stream = request.GetRequestStream();
             WebAgent.WritePostBody(stream, new
             {

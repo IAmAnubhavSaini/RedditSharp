@@ -4,11 +4,6 @@ namespace RedditSharp
 {
     public class CaptchaFailedException : RedditException
     {
-        public CaptchaFailedException()
-        {
-            
-        }
-
         public CaptchaFailedException(string message)
             : base(message)
         {

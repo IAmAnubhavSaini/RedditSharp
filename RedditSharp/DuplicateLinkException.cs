@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace RedditSharp
 {
@@ -10,10 +7,6 @@ namespace RedditSharp
     /// </summary>
     public class DuplicateLinkException : RedditException
     {
-        public DuplicateLinkException()
-        {
-        }
-
         public DuplicateLinkException(string message)
             : base(message)
         {

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using RedditSharp;
+using RedditSharp.Things;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using RedditSharp;
 using System.Security.Authentication;
-using RedditSharp.Things;
 
 namespace TestRedditSharp
 {

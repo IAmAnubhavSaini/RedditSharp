@@ -51,9 +51,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthProviderConstants.cs" />
+    <Compile Include="CaptchaConstants.cs" />
+    <Compile Include="DomainConstants.cs" />
+    <Compile Include="ModeratorPermissionConstants.cs" />
     <Compile Include="PostConstants.cs" />
     <Compile Include="RedditConstants.cs" />
     <Compile Include="SpamFilterSettings.cs" />
+    <Compile Include="SubredditImageConstants.cs" />
+    <Compile Include="SubredditSettingsConstants.cs" />
+    <Compile Include="SubredditStyleConstants.cs" />
     <Compile Include="Things\AuthenticatedUser.cs" />
     <Compile Include="AuthProvider.cs" />
     <Compile Include="Captcha.cs" />

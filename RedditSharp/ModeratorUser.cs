@@ -18,7 +18,7 @@ namespace RedditSharp
 
         [JsonProperty("mod_permissions")]
         [JsonConverter(typeof (ModeratorPermissionConverter))]
-        public ModeratorPermission Permissions { get; set; }
+        public ModeratorPermissionConstants.ModeratorPermission Permissions { get; set; }
 
         public override string ToString()
         {

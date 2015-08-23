@@ -589,64 +589,6 @@ namespace RedditSharp.Things
                         Iden = captchaId,
                         Captcha = captchaAnswer
                     });
-        }
-
-        #region Obsolete Getter Methods
-
-        [Obsolete("Use Posts property instead")]
-        public Listing<Post> GetPosts()
-        {
-            return Posts;
-        }
-
-        [Obsolete("Use New property instead")]
-        public Listing<Post> GetNew()
-        {
-            return New;
-        }
-
-        [Obsolete("Use Hot property instead")]
-        public Listing<Post> GetHot()
-        {
-            return Hot;
-        }
-
-        [Obsolete("Use ModQueue property instead")]
-        public Listing<VotableThing> GetModQueue()
-        {
-            return ModQueue;
-        }
-
-        [Obsolete("Use UnmoderatedLinks property instead")]
-        public Listing<Post> GetUnmoderatedLinks()
-        {
-            return UnmoderatedLinks;
-        }
-
-        [Obsolete("Use Settings property instead")]
-        public SubredditSettings GetSettings()
-        {
-            return Settings;
-        }
-
-        [Obsolete("Use UserFlairTemplates property instead")]
-        public UserFlairTemplate[] GetUserFlairTemplates() // Hacky, there isn't a proper endpoint for this
-        {
-            return UserFlairTemplates;
-        }
-
-        [Obsolete("Use Stylesheet property instead")]
-        public SubredditStyle GetStylesheet()
-        {
-            return Stylesheet;
-        }
-
-        [Obsolete("Use Moderators property instead")]
-        public IEnumerable<ModeratorUser> GetModerators()
-        {
-            return Moderators;
-        }
-
-        #endregion Obsolete Getter Methods
+        }      
     }
 }

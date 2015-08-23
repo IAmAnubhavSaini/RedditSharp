@@ -1,15 +1,12 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
-using System.Web;
+﻿using Newtonsoft.Json.Linq;
 using RedditSharp.Things;
+using System.Collections.Generic;
+using System.Web;
 
 namespace RedditSharp
 {
     public class SubredditStyle
     {
-        private const string UploadImageUrl = "/api/upload_sr_img";
-        private const string UpdateCssUrl = "/api/subreddit_stylesheet";
-
         private Reddit Reddit { get; set; }
         private IWebAgent WebAgent { get; set; }
 
@@ -39,7 +36,7 @@ namespace RedditSharp
 
         public void UpdateCss()
         {
-            var request = WebAgent.CreatePost(UpdateCssUrl);
+            var request = WebAgent.CreatePost(SubredditStyleConstants.UpdateCssUrl);
             var stream = request.GetRequestStream();
             WebAgent.WritePostBody(stream, new
             {
@@ -57,7 +54,7 @@ namespace RedditSharp
 
         public void UploadImage(string name, ImageType imageType, byte[] file)
         {
-            var request = WebAgent.CreatePost(UploadImageUrl);
+            var request = WebAgent.CreatePost(SubredditStyleConstants.UploadImageUrl);
             var formData = new MultipartFormBuilder(request);
             formData.AddDynamic(new
                 {

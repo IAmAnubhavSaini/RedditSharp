@@ -1,15 +1,12 @@
-﻿using System.Web;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RedditSharp.Things;
+using System.Web;
 
 namespace RedditSharp
 {
     public class SubredditSettings
     {
-        private const string SiteAdminUrl = "/api/site_admin";
-        private const string DeleteHeaderImageUrl = "/api/delete_sr_header";
-
         private Reddit Reddit { get; set; }
         private IWebAgent WebAgent { get; set; }
 
@@ -133,7 +130,7 @@ namespace RedditSharp
 
         public void UpdateSettings()
         {
-            var request = WebAgent.CreatePost(SiteAdminUrl);
+            var request = WebAgent.CreatePost(SubredditSettingsConstants.SiteAdminUrl);
             var stream = request.GetRequestStream();
             string link_type;
             string type;
@@ -206,7 +203,7 @@ namespace RedditSharp
         /// </summary>
         public void ResetHeaderImage()
         {
-            var request = WebAgent.CreatePost(DeleteHeaderImageUrl);
+            var request = WebAgent.CreatePost(SubredditSettingsConstants.DeleteHeaderImageUrl);
             var stream = request.GetRequestStream();
             WebAgent.WritePostBody(stream, new
             {

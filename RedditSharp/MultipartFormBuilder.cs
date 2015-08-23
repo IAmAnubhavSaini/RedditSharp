@@ -7,7 +7,6 @@ namespace RedditSharp
     public class MultipartFormBuilder
     {
         public HttpWebRequest Request { get; set; }
-
         private string Boundary { get; set; }
         private MemoryStream Buffer { get; set; }
         private TextWriter TextBuffer { get; set; }
