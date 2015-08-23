@@ -58,9 +58,9 @@
     <Compile Include="PostConstants.cs" />
     <Compile Include="RedditConstants.cs" />
     <Compile Include="SpamFilterSettings.cs" />
-    <Compile Include="SubredditImageConstants.cs" />
-    <Compile Include="SubredditSettingsConstants.cs" />
-    <Compile Include="SubredditStyleConstants.cs" />
+    <Compile Include="Subreddit\SubredditImageConstants.cs" />
+    <Compile Include="Subreddit\SubredditSettingsConstants.cs" />
+    <Compile Include="Subreddit\SubredditStyleConstants.cs" />
     <Compile Include="Things\AuthenticatedUser.cs" />
     <Compile Include="AuthProvider.cs" />
     <Compile Include="Captcha\Captcha.cs" />
@@ -93,9 +93,9 @@
     <Compile Include="SubmitData.cs" />
     <Compile Include="Things\RedditUserConstants.cs" />
     <Compile Include="Things\Subreddit.cs" />
-    <Compile Include="SubredditImage.cs" />
-    <Compile Include="SubredditSettings.cs" />
-    <Compile Include="SubredditStyle.cs" />
+    <Compile Include="Subreddit\SubredditImage.cs" />
+    <Compile Include="Subreddit\SubredditSettings.cs" />
+    <Compile Include="Subreddit\SubredditStyle.cs" />
     <Compile Include="TextData.cs" />
     <Compile Include="Things\SubredditConstants.cs" />
     <Compile Include="Things\Thing.cs" />
@@ -105,11 +105,11 @@
     <Compile Include="Things\VotableThing.cs" />
     <Compile Include="RateLimitException.cs" />
     <Compile Include="WebAgent.cs" />
-    <Compile Include="Wiki.cs" />
-    <Compile Include="WikiConstants.cs" />
-    <Compile Include="WikiPage.cs" />
+    <Compile Include="Wiki\Wiki.cs" />
+    <Compile Include="Wiki\WikiConstants.cs" />
+    <Compile Include="Wiki\WikiPage.cs" />
     <Compile Include="Things\WikiPageRevision.cs" />
-    <Compile Include="WikiPageSettings.cs" />
+    <Compile Include="Wiki\WikiPageSettings.cs" />
     <Compile Include="Domain.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

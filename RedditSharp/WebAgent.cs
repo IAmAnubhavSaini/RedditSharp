@@ -247,7 +247,7 @@ namespace RedditSharp
         {
             var type = data.GetType();
             var properties = type.GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-            string value = "";
+            string value = string.Empty;
             foreach (var property in properties)
             {
                 var attr = property.GetCustomAttributes(typeof(RedditAPINameAttribute), false).FirstOrDefault() as RedditAPINameAttribute;
@@ -260,10 +260,14 @@ namespace RedditSharp
                 var entry = Convert.ToString(additionalFields[i + 1]) ?? string.Empty;
                 value += additionalFields[i] + "=" + HttpUtility.UrlEncode(entry).Replace(";", "%3B").Replace("&", "%26") + "&";
             }
-            value = value.Remove(value.Length - 1); // Remove trailing &
+            value = RemoveTrailingAmpersand(value);
             var raw = Encoding.UTF8.GetBytes(value);
             stream.Write(raw, 0, raw.Length);
             stream.Close();
+        }
+        private string RemoveTrailingAmpersand(string value)
+        {
+            return value.Remove(value.Length - 1);
         }
     }
 }
