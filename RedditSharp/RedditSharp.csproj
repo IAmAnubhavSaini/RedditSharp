@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthProviderConstants.cs" />
-    <Compile Include="CaptchaConstants.cs" />
+    <Compile Include="Captcha\CaptchaConstants.cs" />
     <Compile Include="DomainConstants.cs" />
     <Compile Include="ModeratorPermissionConstants.cs" />
     <Compile Include="PostConstants.cs" />
@@ -63,9 +63,9 @@
     <Compile Include="SubredditStyleConstants.cs" />
     <Compile Include="Things\AuthenticatedUser.cs" />
     <Compile Include="AuthProvider.cs" />
-    <Compile Include="Captcha.cs" />
-    <Compile Include="CaptchaFailedException.cs" />
-    <Compile Include="CaptchaResponse.cs" />
+    <Compile Include="Captcha\Captcha.cs" />
+    <Compile Include="Captcha\CaptchaFailedException.cs" />
+    <Compile Include="Captcha\CaptchaResponse.cs" />
     <Compile Include="ConsoleCaptchaSolver.cs" />
     <Compile Include="DuplicateLinkException.cs" />
     <Compile Include="ICaptchaSolver.cs" />
@@ -106,6 +106,7 @@
     <Compile Include="RateLimitException.cs" />
     <Compile Include="WebAgent.cs" />
     <Compile Include="Wiki.cs" />
+    <Compile Include="WikiConstants.cs" />
     <Compile Include="WikiPage.cs" />
     <Compile Include="Things\WikiPageRevision.cs" />
     <Compile Include="WikiPageSettings.cs" />
