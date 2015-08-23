@@ -11,18 +11,7 @@ namespace RedditSharp.Things
 {
     public class Post : VotableThing
     {
-        private const string CommentUrl = "/api/comment";
-        private const string RemoveUrl = "/api/remove";
-        private const string DelUrl = "/api/del";
-        private const string GetCommentsUrl = "/comments/{0}.json";
-        private const string ApproveUrl = "/api/approve";
-        private const string EditUserTextUrl = "/api/editusertext";
-        private const string HideUrl = "/api/hide";
-        private const string UnhideUrl = "/api/unhide";
-        private const string SetFlairUrl = "/api/flair";
-        private const string MarkNSFWUrl = "/api/marknsfw";
-        private const string UnmarkNSFWUrl = "/api/unmarknsfw";
-        private const string ContestModeUrl = "/api/set_contest_mode";
+        
 
         [JsonIgnore]
         private Reddit Reddit { get; set; }
@@ -108,7 +97,7 @@ namespace RedditSharp.Things
         public Uri Permalink { get; set; }
 
         [JsonProperty("score")]
-        public int Score { get; set; }
+        public new int Score { get; set; }
 
         [JsonProperty("selftext")]
         public string SelfText { get; set; }
@@ -146,7 +135,7 @@ namespace RedditSharp.Things
         {
             if (Reddit.User == null)
                 throw new AuthenticationException("No user logged in.");
-            var request = WebAgent.CreatePost(CommentUrl);
+            var request = WebAgent.CreatePost(PostConstants.CommentUrl);
             var stream = request.GetRequestStream();
             WebAgent.WritePostBody(stream, new
                 {
@@ -201,7 +190,7 @@ namespace RedditSharp.Things
 
         public void Approve()
         {
-            var data = SimpleAction(ApproveUrl);
+            var data = SimpleAction(PostConstants.ApproveUrl);
         }
 
         public void Remove()
@@ -216,7 +205,7 @@ namespace RedditSharp.Things
 
         private void RemoveImpl(bool spam)
         {
-            var request = WebAgent.CreatePost(RemoveUrl);
+            var request = WebAgent.CreatePost(PostConstants.RemoveUrl);
             var stream = request.GetRequestStream();
             WebAgent.WritePostBody(stream, new
             {
@@ -231,32 +220,32 @@ namespace RedditSharp.Things
 
         public void Del()
         {
-            var data = SimpleAction(DelUrl);
+            var data = SimpleAction(PostConstants.DelUrl);
         }
 
         public void Hide()
         {
-            var data = SimpleAction(HideUrl);
+            var data = SimpleAction(PostConstants.HideUrl);
         }
 
         public void Unhide()
         {
-            var data = SimpleAction(UnhideUrl);
+            var data = SimpleAction(PostConstants.UnhideUrl);
         }
 
         public void MarkNSFW()
         {
-            var data = SimpleAction(MarkNSFWUrl);
+            var data = SimpleAction(PostConstants.MarkNSFWUrl);
         }
 
         public void UnmarkNSFW()
         {
-            var data = SimpleAction(UnmarkNSFWUrl);
+            var data = SimpleAction(PostConstants.UnmarkNSFWUrl);
         }
 
         public void ContestMode(bool state)
         {
-            var data = SimpleActionToggle(ContestModeUrl, state);
+            var data = SimpleActionToggle(PostConstants.ContestModeUrl, state);
         }
 
         #region Obsolete Getter Methods
@@ -280,7 +269,7 @@ namespace RedditSharp.Things
             if (!IsSelfPost)
                 throw new Exception("Submission to edit is not a self-post.");
 
-            var request = WebAgent.CreatePost(EditUserTextUrl);
+            var request = WebAgent.CreatePost(PostConstants.EditUserTextUrl);
             WebAgent.WritePostBody(request.GetRequestStream(), new
             {
                 api_type = "json",
@@ -307,7 +296,7 @@ namespace RedditSharp.Things
             if (Reddit.User == null)
                 throw new Exception("No user logged in.");
 
-            var request = WebAgent.CreatePost(SetFlairUrl);
+            var request = WebAgent.CreatePost(PostConstants.SetFlairUrl);
             WebAgent.WritePostBody(request.GetRequestStream(), new
             {
                 api_type = "json",
@@ -325,7 +314,7 @@ namespace RedditSharp.Things
 
         public List<Comment> ListComments(int? limit = null)
         {
-            var url = string.Format(GetCommentsUrl, Id);
+            var url = string.Format(PostConstants.GetCommentsUrl, Id);
 
             if (limit.HasValue)
             {

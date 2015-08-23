@@ -1,10 +1,10 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using RedditSharp.Things;
 using System;
 using System.Linq;
 using System.Net;
 using System.Security.Authentication;
-using RedditSharp.Things;
 using System.Threading.Tasks;
 
 namespace RedditSharp
@@ -14,26 +14,6 @@ namespace RedditSharp
     /// </summary>
     public class Reddit
     {
-        #region Constant Urls
-
-        private const string SslLoginUrl = "https://ssl.reddit.com/api/login";
-        private const string LoginUrl = "/api/login/username";
-        private const string UserInfoUrl = "/user/{0}/about.json";
-        private const string MeUrl = "/api/me.json";
-        private const string OAuthMeUrl = "/api/v1/me.json";
-        private const string SubredditAboutUrl = "/r/{0}/about.json";
-        private const string ComposeMessageUrl = "/api/compose";
-        private const string RegisterAccountUrl = "/api/register";
-        private const string GetThingUrl = "/api/info.json?id={0}";
-        private const string GetCommentUrl = "/r/{0}/comments/{1}/foo/{2}";
-        private const string GetPostUrl = "{0}.json";
-        private const string DomainUrl = "www.reddit.com";
-        private const string OAuthDomainUrl = "oauth.reddit.com";
-        private const string SearchUrl = "/search.json?q={0}&restrict_sr=off&sort={1}&t={2}";
-        private const string UrlSearchPattern = "url:'{0}'";
-
-        #endregion
-
         #region Static Variables
 
         static Reddit()
@@ -117,7 +97,7 @@ namespace RedditSharp
         public Reddit(string accessToken)
             : this(true)
         {
-            WebAgent.RootDomain = OAuthDomainUrl;
+            WebAgent.RootDomain = RedditConstants.OAuthDomainUrl;
             _webAgent.AccessToken = accessToken;
             InitOrUpdateUser();
         }
@@ -136,9 +116,9 @@ namespace RedditSharp
             _webAgent.Cookies = new CookieContainer();
             HttpWebRequest request;
             if (useSsl)
-                request = _webAgent.CreatePost(SslLoginUrl);
+                request = _webAgent.CreatePost(RedditConstants.SslLoginUrl);
             else
-                request = _webAgent.CreatePost(LoginUrl);
+                request = _webAgent.CreatePost(RedditConstants.LoginUrl);
             var stream = request.GetRequestStream();
             if (useSsl)
             {
@@ -173,7 +153,7 @@ namespace RedditSharp
 
         public RedditUser GetUser(string name)
         {
-            var request = _webAgent.CreateGet(string.Format(UserInfoUrl, name));
+            var request = _webAgent.CreateGet(string.Format(RedditConstants.UserInfoUrl, name));
             var response = request.GetResponse();
             var result = _webAgent.GetResponseString(response.GetResponseStream());
             var json = JObject.Parse(result);
@@ -187,7 +167,7 @@ namespace RedditSharp
         /// </summary>
         public void InitOrUpdateUser()
         {
-            var request = _webAgent.CreateGet(string.IsNullOrEmpty(_webAgent.AccessToken) ? MeUrl : OAuthMeUrl);
+            var request = _webAgent.CreateGet(string.IsNullOrEmpty(_webAgent.AccessToken) ? RedditConstants.MeUrl : RedditConstants.OAuthMeUrl);
             var response = (HttpWebResponse)request.GetResponse();
             var result = _webAgent.GetResponseString(response.GetResponseStream());
             var json = JObject.Parse(result);
@@ -210,7 +190,7 @@ namespace RedditSharp
                 name = name.Substring(2);
             if (name.StartsWith("/r/"))
                 name = name.Substring(3);
-            return GetThing<Subreddit>(string.Format(SubredditAboutUrl, name));
+            return GetThing<Subreddit>(string.Format(RedditConstants.SubredditAboutUrl, name));
         }
 
         /// <summary>
@@ -224,7 +204,7 @@ namespace RedditSharp
                 name = name.Substring(2);
             if (name.StartsWith("/r/"))
                 name = name.Substring(3);
-            return await GetThingAsync<Subreddit>(string.Format(SubredditAboutUrl, name));
+            return await GetThingAsync<Subreddit>(string.Format(RedditConstants.SubredditAboutUrl, name));
         }
 
         public Domain GetDomain(string domain)
@@ -242,7 +222,7 @@ namespace RedditSharp
             if (url.EndsWith("/"))
                 url = url.Remove(url.Length - 1);
 
-            var request = _webAgent.CreateGet(string.Format(GetPostUrl, url));
+            var request = _webAgent.CreateGet(string.Format(RedditConstants.GetPostUrl, url));
             var response = request.GetResponse();
             var data = _webAgent.GetResponseString(response.GetResponseStream());
             var json = JToken.Parse(data);
@@ -259,7 +239,7 @@ namespace RedditSharp
         {
             if (User == null)
                 throw new Exception("User can not be null.");
-            var request = _webAgent.CreatePost(ComposeMessageUrl);
+            var request = _webAgent.CreatePost(RedditConstants.ComposeMessageUrl);
             _webAgent.WritePostBody(request.GetRequestStream(), new
             {
                 api_type = "json",
@@ -295,7 +275,7 @@ namespace RedditSharp
         /// <returns>The newly created user account</returns>
         public AuthenticatedUser RegisterAccount(string userName, string passwd, string email = "")
         {
-            var request = _webAgent.CreatePost(RegisterAccountUrl);
+            var request = _webAgent.CreatePost(RedditConstants.RegisterAccountUrl);
             _webAgent.WritePostBody(request.GetRequestStream(), new
             {
                 api_type = "json",
@@ -313,7 +293,7 @@ namespace RedditSharp
 
         public Thing GetThingByFullname(string fullname)
         {
-            var request = _webAgent.CreateGet(string.Format(GetThingUrl, fullname));
+            var request = _webAgent.CreateGet(string.Format(RedditConstants.GetThingUrl, fullname));
             var response = request.GetResponse();
             var data = _webAgent.GetResponseString(response.GetResponseStream());
             var json = JToken.Parse(data);
@@ -329,7 +309,7 @@ namespace RedditSharp
                 if (name.StartsWith("t1_"))
                     name = name.Substring(3);
 
-                var url = string.Format(GetCommentUrl, subreddit, linkName, name);
+                var url = string.Format(RedditConstants.GetCommentUrl, subreddit, linkName, name);
                 return GetComment(new Uri(url));
             }
             catch (WebException)
@@ -340,7 +320,7 @@ namespace RedditSharp
 
         public Comment GetComment(Uri uri)
         {
-            var url = string.Format(GetPostUrl, uri.AbsoluteUri);
+            var url = string.Format(RedditConstants.GetPostUrl, uri.AbsoluteUri);
             var request = _webAgent.CreateGet(url);
             var response = request.GetResponse();
             var data = _webAgent.GetResponseString(response.GetResponseStream());
@@ -352,7 +332,7 @@ namespace RedditSharp
 
         public Listing<T> SearchByUrl<T>(string url) where T : Thing
         {
-            var urlSearchQuery = string.Format(UrlSearchPattern, url);
+            var urlSearchQuery = string.Format(RedditConstants.UrlSearchPattern, url);
             return Search<T>(urlSearchQuery);
         }
 
@@ -360,7 +340,7 @@ namespace RedditSharp
         {
             string sort = sortE.ToString().ToLower();
             string time = timeE.ToString().ToLower();
-            return new Listing<T>(this, string.Format(SearchUrl, query, sort, time), _webAgent);
+            return new Listing<T>(this, string.Format(RedditConstants.SearchUrl, query, sort, time), _webAgent);
         }
 
         #region Helpers
