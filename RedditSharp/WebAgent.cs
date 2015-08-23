@@ -108,31 +108,27 @@ namespace RedditSharp
             var result = GetResponseString(response.GetResponseStream());
 
             var json = JToken.Parse(result);
-            try
+
+            if (json["json"] != null)
             {
-                if (json["json"] != null)
+                json = json["json"]; //get json object if there is a root node
+            }
+            if (json["error"] != null)
+            {
+                switch (json["error"].ToString())
                 {
-                    json = json["json"]; //get json object if there is a root node
-                }
-                if (json["error"] != null)
-                {
-                    switch (json["error"].ToString())
-                    {
-                        case "404":
-                            throw new Exception("File Not Found");
-                        case "403":
-                            throw new Exception("Restricted");
-                        case "invalid_grant":
-                            //Refresh authtoken
-                            //AccessToken = authProvider.GetRefreshToken();
-                            //ExecuteRequest(request);
-                            break;
-                    }
+                    case "404":
+                        throw new Exception("File Not Found");
+                    case "403":
+                        throw new Exception("Restricted");
+                    case "invalid_grant":
+                        //Refresh authtoken
+                        //AccessToken = authProvider.GetRefreshToken();
+                        //ExecuteRequest(request);
+                        break;
                 }
             }
-            catch
-            {
-            }
+
             return json;
 
         }
