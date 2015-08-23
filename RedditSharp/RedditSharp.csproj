@@ -62,7 +62,9 @@
     <Compile Include="ConsoleCaptchaSolver.cs" />
     <Compile Include="DuplicateLinkException.cs" />
     <Compile Include="ICaptchaSolver.cs" />
+    <Compile Include="Things\AuthenticatedUserConstants.cs" />
     <Compile Include="Things\Comment.cs" />
+    <Compile Include="Things\CommentConstants.cs" />
     <Compile Include="Things\CreatedThing.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="FlairTemplate.cs" />
@@ -79,13 +81,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RedditAPINameAttribute.cs" />
     <Compile Include="RedditException.cs" />
+    <Compile Include="Things\PrivateMessageConstants.cs" />
     <Compile Include="Things\RedditUser.cs" />
     <Compile Include="SubmitData.cs" />
+    <Compile Include="Things\RedditUserConstants.cs" />
     <Compile Include="Things\Subreddit.cs" />
     <Compile Include="SubredditImage.cs" />
     <Compile Include="SubredditSettings.cs" />
     <Compile Include="SubredditStyle.cs" />
     <Compile Include="TextData.cs" />
+    <Compile Include="Things\SubredditConstants.cs" />
     <Compile Include="Things\Thing.cs" />
     <Compile Include="UnixTimeStamp.cs" />
     <Compile Include="UnixTimestampConverter.cs" />

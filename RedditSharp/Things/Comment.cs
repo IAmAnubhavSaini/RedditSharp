@@ -1,22 +1,17 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Authentication;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace RedditSharp.Things
 {
     public class Comment : VotableThing
     {
-        private const string CommentUrl = "/api/comment";
-        private const string EditUserTextUrl = "/api/editusertext";
-        private const string RemoveUrl = "/api/remove";
-        private const string SetAsReadUrl = "/api/read_message";
-
         [JsonIgnore]
         private Reddit Reddit { get; set; }
         [JsonIgnore]
@@ -136,7 +131,7 @@ namespace RedditSharp.Things
         {
             if (Reddit.User == null)
                 throw new AuthenticationException("No user logged in.");
-            var request = WebAgent.CreatePost(CommentUrl);
+            var request = WebAgent.CreatePost(CommentConstants.CommentUrl);
             var stream = request.GetRequestStream();
             WebAgent.WritePostBody(stream, new
             {
@@ -172,7 +167,7 @@ namespace RedditSharp.Things
             if (Reddit.User == null)
                 throw new Exception("No user logged in.");
 
-            var request = WebAgent.CreatePost(EditUserTextUrl);
+            var request = WebAgent.CreatePost(CommentConstants.EditUserTextUrl);
             WebAgent.WritePostBody(request.GetRequestStream(), new
             {
                 api_type = "json",
@@ -201,7 +196,7 @@ namespace RedditSharp.Things
 
         private void RemoveImpl(bool spam)
         {
-            var request = WebAgent.CreatePost(RemoveUrl);
+            var request = WebAgent.CreatePost(CommentConstants.RemoveUrl);
             var stream = request.GetRequestStream();
             WebAgent.WritePostBody(stream, new
             {
@@ -216,7 +211,7 @@ namespace RedditSharp.Things
 
         public void SetAsRead()
         {
-            var request = WebAgent.CreatePost(SetAsReadUrl);
+            var request = WebAgent.CreatePost(CommentConstants.SetAsReadUrl);
             WebAgent.WritePostBody(request.GetRequestStream(), new
                                  {
                                      id = FullName,

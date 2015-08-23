@@ -1,20 +1,13 @@
-using System;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Threading.Tasks;
 
 namespace RedditSharp.Things
 {
     public class RedditUser : Thing
     {
-        private const string OverviewUrl = "/user/{0}.json";
-        private const string CommentsUrl = "/user/{0}/comments.json";
-        private const string LinksUrl = "/user/{0}/submitted.json";
-        private const string SubscribedSubredditsUrl = "/subreddits/mine.json";
-        private const string LikedUrl = "/user/{0}/liked.json";
-        private const string DislikedUrl = "/user/{0}/disliked.json";
-
-        private const int MAX_LIMIT = 100;
+        
 
         public RedditUser Init(Reddit reddit, JToken json, IWebAgent webAgent)
         {
@@ -67,7 +60,7 @@ namespace RedditSharp.Things
         {
             get
             {
-                return new Listing<VotableThing>(Reddit, string.Format(OverviewUrl, Name), WebAgent);
+                return new Listing<VotableThing>(Reddit, string.Format(RedditUserConstants.OverviewUrl, Name), WebAgent);
             }
         }
 
@@ -75,7 +68,7 @@ namespace RedditSharp.Things
         {
             get
             {
-                return new Listing<Post>(Reddit, string.Format(LikedUrl, Name), WebAgent);
+                return new Listing<Post>(Reddit, string.Format(RedditUserConstants.LikedUrl, Name), WebAgent);
             }
         }
 
@@ -83,7 +76,7 @@ namespace RedditSharp.Things
         {
             get
             {
-                return new Listing<Post>(Reddit, string.Format(DislikedUrl, Name), WebAgent);
+                return new Listing<Post>(Reddit, string.Format(RedditUserConstants.DislikedUrl, Name), WebAgent);
             }
         }
 
@@ -91,7 +84,7 @@ namespace RedditSharp.Things
         {
             get
             {
-                return new Listing<Comment>(Reddit, string.Format(CommentsUrl, Name), WebAgent);
+                return new Listing<Comment>(Reddit, string.Format(RedditUserConstants.CommentsUrl, Name), WebAgent);
             }
         }
 
@@ -99,7 +92,7 @@ namespace RedditSharp.Things
         {
             get
             {
-                return new Listing<Post>(Reddit, string.Format(LinksUrl, Name), WebAgent);
+                return new Listing<Post>(Reddit, string.Format(RedditUserConstants.LinksUrl, Name), WebAgent);
             }
         }
 
@@ -107,7 +100,7 @@ namespace RedditSharp.Things
         {
             get
             {
-                return new Listing<Subreddit>(Reddit, SubscribedSubredditsUrl, WebAgent);
+                return new Listing<Subreddit>(Reddit, RedditUserConstants.SubscribedSubredditsUrl, WebAgent);
             }
         }
 
@@ -121,9 +114,9 @@ namespace RedditSharp.Things
         /// <returns>The listing of comments requested.</returns>
         public Listing<Comment> GetComments(Sort sorting = Sort.New, int limit = 25, FromTime fromTime = FromTime.All)
         {
-            if ((limit < 1) || (limit > MAX_LIMIT))
-                throw new ArgumentOutOfRangeException("limit", "Valid range: [1," + MAX_LIMIT + "]");
-            string commentsUrl = string.Format(CommentsUrl, Name);
+            if ((limit < 1) || (limit > RedditUserConstants.MAX_LIMIT))
+                throw new ArgumentOutOfRangeException("limit", "Valid range: [1," + RedditUserConstants.MAX_LIMIT + "]");
+            string commentsUrl = string.Format(RedditUserConstants.CommentsUrl, Name);
             commentsUrl += string.Format("?sort={0}&limit={1}&t={2}", Enum.GetName(typeof(Sort), sorting), limit, Enum.GetName(typeof(FromTime), fromTime));
 
             return new Listing<Comment>(Reddit, commentsUrl, WebAgent);
@@ -141,7 +134,7 @@ namespace RedditSharp.Things
         {
             if ((limit < 1) || (limit > 100))
                 throw new ArgumentOutOfRangeException("limit", "Valid range: [1,100]");
-            string linksUrl = string.Format(LinksUrl, Name);
+            string linksUrl = string.Format(RedditUserConstants.LinksUrl, Name);
             linksUrl += string.Format("?sort={0}&limit={1}&t={2}", Enum.GetName(typeof(Sort), sorting), limit, Enum.GetName(typeof(FromTime), fromTime));
 
             return new Listing<Post>(Reddit, linksUrl, WebAgent);

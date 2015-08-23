@@ -1,17 +1,16 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Authentication;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace RedditSharp.Things
 {
     public class PrivateMessage : Thing
     {
-        private const string SetAsReadUrl = "/api/read_message";
-        private const string CommentUrl = "/api/comment";
+        
 
         private Reddit Reddit { get; set; }
         private IWebAgent WebAgent { get; set; }
@@ -131,7 +130,7 @@ namespace RedditSharp.Things
 
         public void SetAsRead()
         {
-            var request = WebAgent.CreatePost(SetAsReadUrl);
+            var request = WebAgent.CreatePost(PrivateMessageConstants.SetAsReadUrl);
             WebAgent.WritePostBody(request.GetRequestStream(), new
             {
                 id = FullName,
@@ -146,7 +145,7 @@ namespace RedditSharp.Things
         {
             if (Reddit.User == null)
                 throw new AuthenticationException("No user logged in.");
-            var request = WebAgent.CreatePost(CommentUrl);
+            var request = WebAgent.CreatePost(PrivateMessageConstants.CommentUrl);
             var stream = request.GetRequestStream();
             WebAgent.WritePostBody(stream, new
             {

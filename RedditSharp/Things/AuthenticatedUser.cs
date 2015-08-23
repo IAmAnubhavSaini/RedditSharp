@@ -1,21 +1,12 @@
-using System;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Threading.Tasks;
 
 namespace RedditSharp.Things
 {
     public class AuthenticatedUser : RedditUser
     {
-        private const string ModeratorUrl = "/reddits/mine/moderator.json";
-        private const string UnreadMessagesUrl = "/message/unread.json?mark=true&limit=25";
-        private const string ModQueueUrl = "/r/mod/about/modqueue.json";
-        private const string UnmoderatedUrl = "/r/mod/about/unmoderated.json";
-        private const string ModMailUrl = "/message/moderator.json";
-        private const string MessagesUrl = "/message/messages.json";
-        private const string InboxUrl = "/message/inbox.json";
-        private const string SentUrl = "/message/sent.json";
-
         public new AuthenticatedUser Init(Reddit reddit, JToken json, IWebAgent webAgent)
         {
             CommonInit(reddit, json, webAgent);
@@ -40,7 +31,7 @@ namespace RedditSharp.Things
         {
             get
             {
-                return new Listing<Subreddit>(Reddit, ModeratorUrl, WebAgent);
+                return new Listing<Subreddit>(Reddit, AuthenticatedUserConstants.ModeratorUrl, WebAgent);
             }
         }
 
@@ -48,7 +39,7 @@ namespace RedditSharp.Things
         {
             get
             {
-                return new Listing<Thing>(Reddit, UnreadMessagesUrl, WebAgent);
+                return new Listing<Thing>(Reddit, AuthenticatedUserConstants.UnreadMessagesUrl, WebAgent);
             }
         }
 
@@ -56,7 +47,7 @@ namespace RedditSharp.Things
         {
             get
             {
-                return new Listing<VotableThing>(Reddit, ModQueueUrl, WebAgent);
+                return new Listing<VotableThing>(Reddit, AuthenticatedUserConstants.ModQueueUrl, WebAgent);
             }
         }
 
@@ -64,7 +55,7 @@ namespace RedditSharp.Things
         {
             get
             {
-                return new Listing<Post>(Reddit, UnmoderatedUrl, WebAgent);
+                return new Listing<Post>(Reddit, AuthenticatedUserConstants.UnmoderatedUrl, WebAgent);
             }
         }
 
@@ -72,7 +63,7 @@ namespace RedditSharp.Things
         {
             get
             {
-                return new Listing<PrivateMessage>(Reddit, ModMailUrl, WebAgent);
+                return new Listing<PrivateMessage>(Reddit, AuthenticatedUserConstants.ModMailUrl, WebAgent);
             }
         }
 
@@ -80,7 +71,7 @@ namespace RedditSharp.Things
         {
             get
             {
-                return new Listing<PrivateMessage>(Reddit, MessagesUrl, WebAgent);
+                return new Listing<PrivateMessage>(Reddit, AuthenticatedUserConstants.MessagesUrl, WebAgent);
             }
         }
 
@@ -88,7 +79,7 @@ namespace RedditSharp.Things
         {
             get
             {
-                return new Listing<PrivateMessage>(Reddit, InboxUrl, WebAgent);
+                return new Listing<PrivateMessage>(Reddit, AuthenticatedUserConstants.InboxUrl, WebAgent);
             }
         }
 
@@ -96,7 +87,7 @@ namespace RedditSharp.Things
         {
             get
             {
-                return new Listing<PrivateMessage>(Reddit, SentUrl, WebAgent);
+                return new Listing<PrivateMessage>(Reddit, AuthenticatedUserConstants.SentUrl, WebAgent);
             }
         }
 
@@ -117,30 +108,30 @@ namespace RedditSharp.Things
         [Obsolete("Use ModerationQueue property instead")]
         public Listing<VotableThing> GetModerationQueue()
         {
-            return new Listing<VotableThing>(Reddit, ModQueueUrl, WebAgent);
+            return new Listing<VotableThing>(Reddit, AuthenticatedUserConstants.ModQueueUrl, WebAgent);
         }
 
         public Listing<Post> GetUnmoderatedLinks()
         {
-            return new Listing<Post>(Reddit, UnmoderatedUrl, WebAgent);
+            return new Listing<Post>(Reddit, AuthenticatedUserConstants.UnmoderatedUrl, WebAgent);
         }
 
         [Obsolete("Use ModMail property instead")]
         public Listing<PrivateMessage> GetModMail()
         {
-            return new Listing<PrivateMessage>(Reddit, ModMailUrl, WebAgent);
+            return new Listing<PrivateMessage>(Reddit, AuthenticatedUserConstants.ModMailUrl, WebAgent);
         }
 
         [Obsolete("Use PrivateMessages property instead")]
         public Listing<PrivateMessage> GetPrivateMessages()
         {
-            return new Listing<PrivateMessage>(Reddit, MessagesUrl, WebAgent);
+            return new Listing<PrivateMessage>(Reddit, AuthenticatedUserConstants.MessagesUrl, WebAgent);
         }
 
         [Obsolete("Use Inbox property instead")]
         public Listing<PrivateMessage> GetInbox()
         {
-            return new Listing<PrivateMessage>(Reddit, InboxUrl, WebAgent);
+            return new Listing<PrivateMessage>(Reddit, AuthenticatedUserConstants.InboxUrl, WebAgent);
         }
 
         #endregion Obsolete Getter Methods
