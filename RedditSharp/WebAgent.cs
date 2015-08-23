@@ -13,6 +13,7 @@ namespace RedditSharp
 {
     public sealed class WebAgent : IWebAgent
     {
+        private bool RuntimeIsMono = Type.GetType("Mono.Runtime") != null;
         /// <summary>
         /// Additional values to append to the default RedditSharp user agent.
         /// </summary>
@@ -173,25 +174,49 @@ namespace RedditSharp
         public HttpWebRequest CreateRequest(string url, string method)
         {
             EnforceRateLimit();
+            HttpWebRequest request = DomainBasedRequest(url);
+            return SetupRequest(request, method);
+        }
+
+        private HttpWebRequest DomainBasedRequest(string url)
+        {
+            HttpWebRequest request;
+            if (shouldPrependDomain(url))
+                request = (HttpWebRequest)WebRequest.Create(String.Format("{0}://{1}{2}", Protocol, RootDomain, url));
+            else
+                request = (HttpWebRequest)WebRequest.Create(url);
+
+            return request;
+        }
+
+        private bool shouldPrependDomain(string url)
+        {
             bool prependDomain;
             // IsWellFormedUriString returns true on Mono for some reason when using a string like "/api/me"
-            if (Type.GetType("Mono.Runtime") != null)
+            if (RuntimeIsMono)
                 prependDomain = !url.StartsWith("http://") && !url.StartsWith("https://");
             else
                 prependDomain = !Uri.IsWellFormedUriString(url, UriKind.Absolute);
 
-            HttpWebRequest request;
-            if (prependDomain)
-                request = (HttpWebRequest)WebRequest.Create(String.Format("{0}://{1}{2}", Protocol, RootDomain, url));
-            else
-                request = (HttpWebRequest)WebRequest.Create(url);
+            return prependDomain;
+        }
+
+        private HttpWebRequest CreateRequest(Uri uri, string method)
+        {
+            EnforceRateLimit();
+            var request = (HttpWebRequest)WebRequest.Create(uri);
+            return SetupRequest(request, method);
+        }
+
+        private HttpWebRequest SetupRequest(HttpWebRequest request, string method)
+        {
             request.CookieContainer = Cookies;
-            if (Type.GetType("Mono.Runtime") != null)
+            if (RuntimeIsMono)
             {
                 var cookieHeader = Cookies.GetCookieHeader(new Uri("http://reddit.com"));
                 request.Headers.Set("Cookie", cookieHeader);
             }
-            if (RootDomain == "oauth.reddit.com")// use OAuth
+            if (UsingOAuth())
             {
                 request.Headers.Set("Authorization", "bearer " + AccessToken);//Must be included in OAuth calls
             }
@@ -200,23 +225,9 @@ namespace RedditSharp
             return request;
         }
 
-        private HttpWebRequest CreateRequest(Uri uri, string method)
+        private static bool UsingOAuth()
         {
-            EnforceRateLimit();
-            var request = (HttpWebRequest)WebRequest.Create(uri);
-            request.CookieContainer = Cookies;
-            if (Type.GetType("Mono.Runtime") != null)
-            {
-                var cookieHeader = Cookies.GetCookieHeader(new Uri("http://reddit.com"));
-                request.Headers.Set("Cookie", cookieHeader);
-            }
-            if (RootDomain == "oauth.reddit.com")// use OAuth
-            {
-                request.Headers.Set("Authorization", "bearer " + AccessToken);//Must be included in OAuth calls
-            }
-            request.Method = method;
-            request.UserAgent = UserAgent + " - with RedditSharp by /u/sircmpwn";
-            return request;
+            return RootDomain == "oauth.reddit.com";
         }
 
         public HttpWebRequest CreateGet(string url)

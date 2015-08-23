@@ -12,7 +12,7 @@ namespace RedditSharp
     /// <summary>
     /// Class to communicate with Reddit.com
     /// </summary>
-    public sealed class Reddit
+    public class Reddit
     {
         #region Static Variables
 
